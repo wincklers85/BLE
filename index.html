@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>BLE Radar Scanner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>BLE Radar Scanner</h1>
+      <p>Scansione dispositivi Bluetooth Low Energy con mappa radar interattiva</p>
+    </header>
+
+    <section class="controls card">
+      <div class="buttons-row">
+        <button id="btnStartScan">🚀 Avvia scansione</button>
+        <button id="btnStopScan" class="secondary" disabled>🛑 Ferma scansione</button>
+      </div>
+      <p class="status-line">
+        <strong>Stato scansione:</strong>
+        <span id="scanStatus">Fermata</span>
+      </p>
+      <p class="status-line">
+        <strong>Dispositivi trovati:</strong>
+        <span id="deviceCount">0</span>
+      </p>
+      <p class="hint">
+        Suggerimento: tieni il dispositivo BLE acceso e vicino. L’intensità (RSSI) determina la distanza sul radar.
+      </p>
+    </section>
+
+    <main class="main-layout">
+      <section class="card radar-card">
+        <h2>Radar</h2>
+        <div class="radar-wrapper">
+          <canvas id="radarCanvas" width="400" height="400"></canvas>
+        </div>
+        <p class="hint">
+          Clicca su un punto sul radar per selezionare un dispositivo.
+        </p>
+      </section>
+
+      <section class="card details-card">
+        <h2>Dettagli dispositivo</h2>
+        <p><strong>Selezionato:</strong> <span id="selectedName">Nessuno</span></p>
+        <p><strong>ID:</strong> <span id="selectedId">—</span></p>
+        <p><strong>RSSI:</strong> <span id="selectedRssi">—</span></p>
+        <p><strong>Ultimo avvistamento:</strong> <span id="selectedLastSeen">—</span></p>
+
+        <div class="buttons-row">
+          <button id="btnConnect" disabled>🔗 Connetti</button>
+          <button id="btnDisconnect" class="secondary" disabled>❌ Disconnetti</button>
+        </div>
+
+        <p class="status-line">
+          <strong>Stato connessione:</strong>
+          <span id="connectionStatus">Non connesso</span>
+        </p>
+
+        <hr>
+
+        <h3>Servizio & Caratteristica</h3>
+        <label>
+          Service UUID (es. <code>battery_service</code>):
+          <input id="serviceUuid" type="text" value="battery_service">
+        </label>
+
+        <label>
+          Characteristic UUID (es. <code>battery_level</code>):
+          <input id="characteristicUuid" type="text" value="battery_level">
+        </label>
+
+        <div class="buttons-row">
+          <button id="btnRead" disabled>📥 Leggi</button>
+        </div>
+
+        <p><strong>Ultimo valore letto:</strong> <span id="lastValue">—</span></p>
+
+        <h3>Invia comando / Scrittura</h3>
+        <label>
+          Dati da inviare (stringa, verrà inviata come UTF-8):
+          <input id="writeValue" type="text" placeholder="es. LED_ON o 123,45">
+        </label>
+        <div class="buttons-row">
+          <button id="btnWrite" disabled>📤 Invia comando</button>
+        </div>
+
+        <h3>Log</h3>
+        <div id="log" class="log"></div>
+        <button id="btnClearLog" class="secondary small">Pulisci log</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
